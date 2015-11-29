@@ -1,13 +1,15 @@
-dataset = LOAD './local-input/OSN/tw.txt' AS (id: long, fr: long);
+dataset = LOAD './local-input/tw.txt' AS (id: int, fr: int);
 
 -- check if user IDs are valid (e.g. not null) and clean the dataset
-SPLIT dataset INTO good_dataset IF id is not null and fr is not null, bad_dataset OTHERWISE;
+-- SPLIT dataset INTO good_dataset IF id is not null and fr is not null, bad_dataset OTHERWISE;
+
+good_dataset = FILTER dataset BY id > 0;
 
 -- organize data such that each node ID is associated to a list of neighbors
 nodes = GROUP good_dataset BY id; 
 
 -- foreach node ID generate an output relation consisting of the node ID and the number of "friends"
-friends = FOREACH nodes GENERATE group,COUNT(good_dataset) AS followers;
+friends = FOREACH nodes GENERATE group, COUNT(good_dataset) AS followers;
 
 -- count the following
 nodes2 = GROUP good_dataset BY fr;
