@@ -19,6 +19,6 @@ followings = FOREACH nodes2 GENERATE group, COUNT(good_dataset);
 -- find the outliers
 outliers = FILTER friends BY followers<3;
 
-STORE friends INTO './local-output/OSN/twc/';
-STORE followings INTO './local-output/OSN/following/';
-STORE outliers INTO './local-output/OSN/outliers/';
+STORE friends INTO 'twc';
+STORE followings INTO 'following';
+STORE outliers INTO 'outliers';
